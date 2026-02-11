@@ -1,7 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { X, Check } from 'lucide-react';
 
@@ -31,11 +30,21 @@ const comparisons = [
 export default function ManifestoSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  });
+  
+  // Table rows reveal progressively as user scrolls
+  const tableScale = useTransform(scrollYProgress, [0, 0.5], [0.96, 1]);
+  const tableOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
   return (
-    <section className="py-24 px-6 bg-[var(--background)]">
+    <section ref={sectionRef} className="py-24 px-6 bg-[var(--background)]">
       <div className="max-w-4xl mx-auto">
-        {/* Section Header */}
+        {/* Section Header — clip-path reveal */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
@@ -54,8 +63,11 @@ export default function ManifestoSection() {
           </p>
         </motion.div>
 
-        {/* Comparison Table */}
-        <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] backdrop-blur-xl">
+        {/* Comparison Table — scroll-linked scale/opacity */}
+        <motion.div 
+          style={{ scale: tableScale, opacity: tableOpacity }}
+          className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] backdrop-blur-xl"
+        >
           {/* Header */}
           <div className="grid grid-cols-2">
             <div className="p-5 border-r border-[var(--border)]">
@@ -66,32 +78,32 @@ export default function ManifestoSection() {
             </div>
           </div>
 
-          {/* Rows */}
+          {/* Rows — each row slides in from alternating sides */}
           {comparisons.map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
-              className="grid grid-cols-2 border-t border-[var(--border)]"
+              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+              transition={{ duration: 0.5, delay: 0.15 + index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="grid grid-cols-2 border-t border-[var(--border)] group"
             >
-              <div className="p-5 border-r border-[var(--border)] flex items-start gap-3">
+              <div className="p-5 border-r border-[var(--border)] flex items-start gap-3 group-hover:bg-[var(--accent-coral)]/5 transition-colors duration-300">
                 <X className="w-4 h-4 text-[var(--accent-coral)] shrink-0 mt-0.5" />
                 <span className="text-sm text-[var(--text-muted)]">{item.typical}</span>
               </div>
-              <div className="p-5 flex items-start gap-3 bg-[var(--primary-gold)]/5">
+              <div className="p-5 flex items-start gap-3 bg-[var(--primary-gold)]/5 group-hover:bg-[var(--primary-gold)]/10 transition-colors duration-300">
                 <Check className="w-4 h-4 text-[var(--primary-gold)] shrink-0 mt-0.5" />
                 <span className="text-sm text-[var(--text-primary)]">{item.yieldops}</span>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Bottom quote */}
+        {/* Bottom quote — staggered word appearance */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8, delay: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="mt-16 text-center"
         >
           <blockquote className="text-xl sm:text-2xl font-medium text-[var(--text-primary)]">
