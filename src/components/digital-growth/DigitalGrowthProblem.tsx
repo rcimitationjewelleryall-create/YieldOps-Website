@@ -9,7 +9,7 @@ export default function DigitalGrowthProblem() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section className="py-20 px-6 bg-[var(--background-secondary)]">
+    <section id="dg-problem" className="py-20 px-6 bg-[var(--background-secondary)]">
       <div className="max-w-4xl mx-auto" ref={ref}>
         {/* Section Header */}
         <motion.div

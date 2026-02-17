@@ -37,7 +37,7 @@ export default function DigitalGrowthBundle() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section className="py-20 px-6 bg-[var(--background)]">
+    <section id="dg-process" className="py-20 px-6 bg-[var(--background)]">
       <div className="max-w-5xl mx-auto" ref={ref}>
         {/* Header */}
         <motion.div

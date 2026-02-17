@@ -75,7 +75,7 @@ export default function CursorGlow() {
         <motion.div
           animate={{
             scale: isHovering ? 1.4 : 1,
-            opacity: isVisible ? (isHovering ? 0.25 : 0.15) : 0,
+            opacity: isVisible ? (isHovering ? 0.45 : 0.3) : 0,
           }}
           transition={{ duration: 0.2 }}
           className="w-24 h-24 rounded-full"

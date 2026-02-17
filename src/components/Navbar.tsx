@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 import { Sun, Moon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 
-const navLinks = [
+const homeLinks = [
   { name: 'Problem', href: '#problem' },
   { name: 'Process', href: '#process' },
   { name: 'Pricing', href: '#pricing' },
@@ -14,8 +15,20 @@ const navLinks = [
   { name: 'FAQ', href: '#faq' },
 ];
 
+const digitalGrowthLinks = [
+  { name: 'Problem', href: '#dg-problem' },
+  { name: 'Process', href: '#dg-process' },
+  { name: 'Pricing', href: '#dg-pricing' },
+  { name: 'About', href: '#dg-about' },
+  { name: 'FAQ', href: '#dg-faq' },
+];
+
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
+
+  const isDigitalGrowth = pathname === '/digital-growth';
+  const navLinks = isDigitalGrowth ? digitalGrowthLinks : homeLinks;
 
   return (
     <motion.nav
@@ -72,14 +85,17 @@ export default function Navbar() {
 
             {/* CTA Button */}
             <motion.a
-              href="https://cal.com/dax-yeildops/yield-diagnostic"
+              href={isDigitalGrowth
+                ? "https://wa.me/919825612393?text=Hi%20YieldOps%2C%20I%20want%20to%20know%20about%20the%20Digital%20Dominance%20Bundle"
+                : "https://cal.com/dax-yeildops/yield-diagnostic"
+              }
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="apple-button px-5 py-2.5 text-sm font-medium cursor-pointer"
             >
-              Book Audit
+              {isDigitalGrowth ? 'Get Bundle' : 'Book Audit'}
             </motion.a>
           </div>
         </div>

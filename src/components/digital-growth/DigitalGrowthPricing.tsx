@@ -21,7 +21,7 @@ export default function DigitalGrowthPricing() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section className="py-20 px-6 bg-[var(--background-secondary)]">
+    <section id="dg-pricing" className="py-20 px-6 bg-[var(--background-secondary)]">
       <div className="max-w-3xl mx-auto" ref={ref}>
         {/* Header */}
         <motion.div

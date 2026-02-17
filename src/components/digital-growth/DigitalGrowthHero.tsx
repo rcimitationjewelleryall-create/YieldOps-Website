@@ -31,9 +31,14 @@ export default function DigitalGrowthHero() {
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6 text-[var(--text-primary)]">
           <TextReveal delay={0.2}>Dominate Your</TextReveal>
           <br />
-          <span className="bg-gradient-to-r from-[#c94448] to-[var(--primary-gold)] bg-clip-text text-transparent">
-            <TextReveal delay={0.6}>Local Market in 30 Days.</TextReveal>
-          </span>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+            className="inline-block bg-gradient-to-r from-[#c94448] to-[var(--primary-gold)] bg-clip-text text-transparent"
+          >
+            Local Market.
+          </motion.span>
         </h1>
 
         {/* Subheadline */}
@@ -57,9 +62,9 @@ export default function DigitalGrowthHero() {
         >
           {[
             { icon: Star, label: '5-Star Reviews', value: 'Guaranteed' },
-            { icon: MapPin, label: 'Google Maps', value: 'Page 1 Ranking' },
+            { icon: MapPin, label: 'Google Maps', value: 'Full Profile Optimization' },
           ].map((stat, i) => (
-            <div key={i} className="flex items-center gap-3 glass-badge px-5 py-3">
+            <div key={i} className="flex items-center gap-3 glass-badge px-5 py-3 min-w-[220px]">
               <stat.icon className="w-5 h-5 text-[var(--primary-gold)]" />
               <div className="text-left">
                 <p className="text-xs text-[var(--text-muted)]">{stat.label}</p>
